@@ -1,103 +1,56 @@
 body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+    background: url('assets/background.jpg') no-repeat center center fixed;
+    background-size: cover;
 }
 
-/* Navbar */
-.navbar {
-    display: flex;
-    justify-content: space-between;
-    background: #222;
-    padding: 15px 20px;
-    align-items: center;
-}
-
-.logo img {
-    height: 40px;
-}
-
-.navbar nav ul {
-    list-style: none;
-    display: flex;
-    padding: 0;
-    margin: 0;
-}
-
-.navbar nav ul li {
-    margin-right: 20px;
-}
-
-.navbar nav ul li a {
-    text-decoration: none;
-    color: white;
-}
-
-.search-bar input {
-    padding: 5px;
-}
-
-.search-bar button {
-    padding: 5px;
-    background: orange;
-    border: none;
-    cursor: pointer;
-}
-
-/* Banner */
 .banner {
-    background: url('assets/background.jpg') center/cover;
-    height: 300px;
-    display: flex;
-    align-items: center;
-    color: white;
     text-align: center;
+    padding: 50px 20px;
+    background: rgba(0, 0, 0, 0.6); /* Tambahkan overlay gelap */
 }
 
-.banner-content {
-    margin: 0 auto;
-}
-
-/* Anime List */
-.anime-list {
-    padding: 20px;
+.banner h1, .banner p {
+    color: white;
 }
 
 .anime-container {
     display: flex;
-    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
-.anime-container img {
-    width: 150px;
-    height: auto;
+.anime-item {
+    width: 200px;
+    text-align: center;
+    background: white;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
 }
 
-/* News */
-.news {
-    padding: 20px;
-}
-
-.news-container {
-    display: flex;
-    gap: 15px;
-}
-
-.news-container article {
-    width: 45%;
-}
-
-.news-container img {
+.anime-item img {
     width: 100%;
+    height: auto;
     border-radius: 5px;
 }
 
-/* Footer */
-footer {
-    background: #222;
-    color: white;
-    text-align: center;
+.news-container article {
+    background: rgba(255, 255, 255, 0.8);
     padding: 15px;
-    margin-top: 20px;
+    border-radius: 5px;
+}
+
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .news-container {
+        flex-direction: column;
+    }
+
+    .anime-item {
+        width: 100%;
+    }
 }
