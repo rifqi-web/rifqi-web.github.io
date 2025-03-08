@@ -7,7 +7,7 @@ function changeBackground() {
     index = (index + 1) % backgrounds.length;
 }
 
-setInterval(changeBackground, 5000); // Ganti setiap 5 detik
+setInterval(changeBackground, 5000);
 changeBackground();
 
 // Menampilkan dan menyimpan link Google Drive
@@ -32,7 +32,8 @@ saveBtn.addEventListener("click", () => {
         imgElement.src = embedLink;
         imgElement.width = "200";
         imgElement.height = "200";
-        imgElement.style.borderRadius = "5px";
+        imgElement.style.borderRadius = "10px";
+        imgElement.style.boxShadow = "2px 2px 10px rgba(0, 0, 0, 0.5)";
 
         galleryContainer.appendChild(imgElement);
         saveToLocalStorage(embedLink);
@@ -57,7 +58,8 @@ function loadGallery() {
         imgElement.src = link;
         imgElement.width = "200";
         imgElement.height = "200";
-        imgElement.style.borderRadius = "5px";
+        imgElement.style.borderRadius = "10px";
+        imgElement.style.boxShadow = "2px 2px 10px rgba(0, 0, 0, 0.5)";
         galleryContainer.appendChild(imgElement);
     });
 }
