@@ -1,67 +1,31 @@
-// Mengubah background setiap beberapa detik
-let backgrounds = ["background-1.jpg", "background-2.jpg", "background-3.jpg"];
-let index = 0;
+const API_KEY = "AIzaSyA8VACtdCiBmDDv1W3gFM8WJqz-A_y5ZoM";
+const BASE_URL = "https://www.googleapis.com/youtube/v3";
 
-function changeBackground() {
-    document.body.style.backgroundImage = `url(${backgrounds[index]})`;
-    index = (index + 1) % backgrounds.length;
-}
-
-setInterval(changeBackground, 5000);
-changeBackground();
-
-// Menampilkan dan menyimpan link Google Drive
-const uploadBtn = document.getElementById("uploadBtn");
-const uploadModal = document.getElementById("uploadModal");
-const saveBtn = document.getElementById("saveBtn");
-const driveLinkInput = document.getElementById("driveLink");
-const galleryContainer = document.getElementById("gallery-container");
-
-// Buka modal upload
-uploadBtn.addEventListener("click", () => {
-    uploadModal.style.display = "block";
+document.addEventListener("DOMContentLoaded", () => {
+    fetchAnimeVideos();
 });
 
-// Simpan link dan tambahkan ke gallery
-saveBtn.addEventListener("click", () => {
-    let driveLink = driveLinkInput.value.trim();
-    if (driveLink) {
-        let embedLink = driveLink.replace("/view?usp=drivesdk", "/preview");
+function fetchAnimeVideos() {
+    const url = `${BASE_URL}/search?part=snippet&q=anime&type=video&maxResults=5&key=${API_KEY}`;
 
-        let imgElement = document.createElement("iframe");
-        imgElement.src = embedLink;
-        imgElement.width = "200";
-        imgElement.height = "200";
-        imgElement.style.borderRadius = "10px";
-        imgElement.style.boxShadow = "2px 2px 10px rgba(0, 0, 0, 0.5)";
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            const animeList = document.getElementById("anime-list");
+            animeList.innerHTML = ""; 
 
-        galleryContainer.appendChild(imgElement);
-        saveToLocalStorage(embedLink);
+            data.items.forEach(video => {
+                const animeItem = document.createElement("div");
+                animeItem.classList.add("anime-item");
 
-        driveLinkInput.value = "";
-        uploadModal.style.display = "none";
-    }
-});
-
-// Simpan ke localStorage agar tidak hilang saat refresh
-function saveToLocalStorage(link) {
-    let savedLinks = JSON.parse(localStorage.getItem("galleryLinks")) || [];
-    savedLinks.push(link);
-    localStorage.setItem("galleryLinks", JSON.stringify(savedLinks));
+                animeItem.innerHTML = `
+                    <img src="${video.snippet.thumbnails.medium.url}" alt="${video.snippet.title}">
+                    <h3>${video.snippet.title}</h3>
+                    <a href="https://www.youtube.com/watch?v=${video.id.videoId}" target="_blank">Watch</a>
+                `;
+                
+                animeList.appendChild(animeItem);
+            });
+        })
+        .catch(error => console.error("Error fetching anime videos:", error));
 }
-
-// Ambil dari localStorage saat halaman dimuat
-function loadGallery() {
-    let savedLinks = JSON.parse(localStorage.getItem("galleryLinks")) || [];
-    savedLinks.forEach(link => {
-        let imgElement = document.createElement("iframe");
-        imgElement.src = link;
-        imgElement.width = "200";
-        imgElement.height = "200";
-        imgElement.style.borderRadius = "10px";
-        imgElement.style.boxShadow = "2px 2px 10px rgba(0, 0, 0, 0.5)";
-        galleryContainer.appendChild(imgElement);
-    });
-}
-
-window.onload = loadGallery;
