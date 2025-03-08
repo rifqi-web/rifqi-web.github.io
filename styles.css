@@ -1,122 +1,103 @@
-/* Reset dasar */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Style body dan background */
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    transition: background 1s;
-    color: white;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
 }
 
-/* Header */
-header {
+/* Navbar */
+.navbar {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    background: #222;
     padding: 15px 20px;
-    background: rgba(0, 0, 0, 0.6);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    left: 0;
+    align-items: center;
 }
 
-header h1 {
-    font-size: 24px;
+.logo img {
+    height: 40px;
 }
 
-nav a {
-    color: white;
+.navbar nav ul {
+    list-style: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar nav ul li {
+    margin-right: 20px;
+}
+
+.navbar nav ul li a {
     text-decoration: none;
-    margin: 0 10px;
-    font-weight: bold;
+    color: white;
 }
 
-nav a:hover {
-    text-decoration: underline;
+.search-bar input {
+    padding: 5px;
 }
 
-/* Bagian hero */
-.hero {
-    margin-top: 80px;
-    padding: 50px 20px;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.hero h2 {
-    font-size: 28px;
-    font-weight: bold;
-}
-
-.hero p {
-    font-size: 16px;
-    margin-bottom: 20px;
-}
-
-/* Tombol */
-button {
-    padding: 12px 20px;
-    background: yellow;
+.search-bar button {
+    padding: 5px;
+    background: orange;
     border: none;
     cursor: pointer;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: 0.3s;
 }
 
-button:hover {
-    background: orange;
+/* Banner */
+.banner {
+    background: url('assets/background.jpg') center/cover;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    color: white;
+    text-align: center;
 }
 
-/* Gallery */
-.gallery {
-    margin-top: 20px;
+.banner-content {
+    margin: 0 auto;
+}
+
+/* Anime List */
+.anime-list {
     padding: 20px;
 }
 
-#gallery-container {
+.anime-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
     gap: 15px;
 }
 
-img {
-    width: 200px;
+.anime-container img {
+    width: 150px;
     height: auto;
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Form Upload */
-#uploadModal {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: white;
+/* News */
+.news {
     padding: 20px;
-    box-shadow: 0 0 10px black;
-    border-radius: 8px;
 }
 
-#uploadModal input {
-    padding: 8px;
-    width: 80%;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
+.news-container {
+    display: flex;
+    gap: 15px;
 }
 
-#uploadModal button {
-    background: green;
+.news-container article {
+    width: 45%;
+}
+
+.news-container img {
+    width: 100%;
+    border-radius: 5px;
+}
+
+/* Footer */
+footer {
+    background: #222;
     color: white;
+    text-align: center;
+    padding: 15px;
+    margin-top: 20px;
 }
