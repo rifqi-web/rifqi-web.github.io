@@ -4,36 +4,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Capture The Moments</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Reset dasar */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Style body dan background */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background 1s;
+            color: white;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.6);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        header h1 {
+            font-size: 24px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        /* Bagian hero */
+        .hero {
+            margin-top: 80px;
+            padding: 50px 20px;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero h2 {
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Tombol */
+        button {
+            padding: 12px 20px;
+            background: yellow;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: orange;
+        }
+
+        /* Gallery */
+        .gallery {
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        #gallery-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        img {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Form Upload */
+        #uploadModal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px black;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        #uploadModal input {
+            padding: 8px;
+            width: 80%;
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+        }
+
+        #uploadModal button {
+            background: green;
+            color: white;
+        }
+    </style>
 </head>
 <body>
 
     <header>
         <h1>Capture The Moments</h1>
         <nav>
-            <a href="#">About me</a>
+            <a href="#">About Me</a>
             <a href="#">Moment</a>
             <a href="#">Story</a>
             <a href="#">Gallery</a>
         </nav>
     </header>
 
-    <section class="hero">
+    <div class="hero">
         <h2>My Self | Personal Branding</h2>
         <p>Visit my personal branding on Instagram</p>
         <button id="uploadBtn">Upload</button>
-    </section>
-
-    <section class="gallery">
-        <h2>Gallery</h2>
-        <div id="gallery-container"></div>
-    </section>
-
-    <div id="uploadModal">
-        <input type="text" id="driveLink" placeholder="Masukkan link Google Drive">
-        <button id="saveBtn">Simpan</button>
     </div>
 
-    <script src="script.js"></script>
+    <div class="gallery">
+        <h2>Gallery</h2>
+        <div id="gallery-container"></div>
+    </div>
+
+    <!-- Modal untuk Upload -->
+    <div id="uploadModal">
+        <h3>Masukkan link Google Drive</h3>
+        <input type="text" id="driveLink" placeholder="Masukkan link Google Drive">
+        <br>
+        <button id="saveBtn">Simpan</button>
+        <button onclick="document.getElementById('uploadModal').style.display='none'">Batal</button>
+    </div>
+
+    <script>
+        // Mengubah background setiap beberapa detik
+        let backgrounds = ["background-1.jpg", "background-2.jpg", "background-3.jpg"];
+        let index = 0;
+
+        function changeBackground() {
+            document.body.style.backgroundImage = `url(${backgrounds[index]})`;
+            index = (index + 1) % backgrounds.length;
+        }
+
+        setInterval(changeBackground, 5000);
+        changeBackground();
+
+        // Menampilkan dan menyimpan link Google Drive
+        const uploadBtn = document.getElementById("uploadBtn");
+        const uploadModal = document.getElementById("uploadModal");
+        const saveBtn = document.getElementById("saveBtn");
+        const driveLinkInput = document.getElementById("driveLink");
+        const galleryContainer = document.getElementById("gallery-container");
+
+        // Buka modal upload
+        uploadBtn.addEventListener("click", () => {
+            uploadModal.style.display = "block";
+        });
+
+        // Simpan link dan tambahkan ke gallery
+        saveBtn.addEventListener("click", () => {
+            let driveLink = driveLinkInput.value.trim();
+            if (driveLink) {
+                let embedLink = driveLink.replace("/view?usp=drivesdk", "/preview");
+
+                let imgElement = document.createElement("iframe");
+                imgElement.src = embedLink;
+                imgElement.width = "200";
+                imgElement.height = "200";
+                imgElement.style.borderRadius = "10px";
+                imgElement.style.boxShadow = "2px 2px 10px rgba(0, 0, 0, 0.5)";
+
+                galleryContainer.appendChild(imgElement);
+                saveToLocalStorage(embedLink);
+
+                driveLinkInput.value = "";
+                uploadModal.style.display = "none";
+            }
+        });
+
+        // Simpan ke localStorage agar tidak hilang saat refresh
+        function saveToLocalStorage(link) {
+            let savedLinks = JSON.parse(localStorage.getItem("galleryLinks")) || [];
+            savedLinks.push(link);
+            localStorage.setItem("galleryLinks", JSON.stringify(savedLinks));
+        }
+
+        // Ambil dari localStorage saat halaman dimuat
+        function loadGallery() {
+            let savedLinks = JSON.parse(localStorage.getItem("galleryLinks")) || [];
+            savedLinks.forEach(link => {
+                let imgElement = document.createElement("iframe");
+                imgElement.src = link;
+                imgElement.width = "200";
+                imgElement.height = "200";
+                imgElement.style.borderRadius = "10px";
+                imgElement.style.boxShadow = "2px 2px 10px rgba(0, 0, 0, 0.5)";
+                galleryContainer.appendChild(imgElement);
+            });
+        }
+
+        window.onload = loadGallery;
+    </script>
+
 </body>
 </html>
